@@ -1,90 +1,64 @@
-import React, { useState, useEffect, useRef } from 'react';
-
-const ErrorText = () => (
-  <p className="App-error-text">geolocation IS NOT available</p>
-);
+import React, { useState, useEffect } from 'react';
 
 const App = () => {
-  const [isAvailable, setAvailable] = useState(false);
-  const [position, setPosition] = useState({ latitude: null, longitude: null });
-  const [watchStatus, setWatchStatus] = useState({
-    isWatching: false,
-    watchId: null
-  });
+  const [num, setNum] = useState(0);
+  const [watchId, setWatchId] = useState(null);
+  const [geoText, setGeoText] = useState('');
 
-  // useEffectが実行されているかどうかを判定するために用意しています
-  const isFirstRef = useRef(true);
+  const test = () => {
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 20000,
+      maximumAge: 2000,
+    };
+
+    const successCallback = (position) => {
+      const date = new Date(position.timestamp);
+
+      const newGeoText = `緯度:${position.coords.latitude}\n
+                          経度:${position.coords.longitude}\n
+                          高度:${position.coords.altitude}\n
+                          位置精度:${position.coords.accuracy}\n
+                          高度精度:${position.coords.altitudeAccuracy}\n
+                          移動方向:${position.coords.heading}\n
+                          速度:${position.coords.speed}\n
+                          取得時刻:${date.toLocaleString()}\n
+                          取得回数:${num + 1}\n`;
+
+      setGeoText(newGeoText);
+      setNum((prevNum) => prevNum + 1);
+    };
+
+    const errorCallback = (error) => {
+      alert(error.message);
+    };
+
+    const id = navigator.geolocation.watchPosition(successCallback, errorCallback, options);
+    setWatchId(id);
+  };
+
+  const clear = () => {
+    navigator.geolocation.clearWatch(watchId);
+    setGeoText('');
+    setNum(0);
+  };
 
   useEffect(() => {
-    isFirstRef.current = false;
-    if ('geolocation' in navigator) {
-      setAvailable(true);
-    }
-  }, [isAvailable]);
-
-  const getCurrentPosition = () => {
-    navigator.geolocation.getCurrentPosition(position => {
-      const { latitude, longitude } = position.coords;
-      setPosition({ latitude, longitude });
-    });
-  };
-
-  /*
-   * 監視を開始します
-   */
-  const startWatchPosition = () => {
-    const watchId = navigator.geolocation.watchPosition(position => {
-      const { latitude, longitude } = position.coords;
-      setPosition({ latitude, longitude });
-    });
-
-    setWatchStatus({ isWatching: true, watchId });
-  };
-
-  /*
-   * 監視を停止します
-   */
-  const stopWatchPosition = watchStatus => {
-    navigator.geolocation.clearWatch(watchId);
-    setWatchStatus({ isWatching: false, watchId });
-  };
-
-  // useEffect実行前であれば、"Loading..."という呼び出しを表示させます
-  if (isFirstRef.current) return <div className="App">Loading...</div>;
-
-  const { isWatching, watchId } = watchStatus;
+    return () => {
+      if (watchId) {
+        navigator.geolocation.clearWatch(watchId);
+      }
+    };
+  }, [watchId]);
 
   return (
-    <div className="App">
-      <h2>Geolocation API Sample</h2>
-      {!isFirstRef && !isAvailable && <ErrorText />}
-      {isAvailable && (
-        <div>
-          <button onClick={getCurrentPosition}>Get Current Position</button>
-          {isWatching ? (
-            <button onClick={() => stopWatchPosition(watchStatus)}>
-              Stop Watch Position
-            </button>
-          ) : (
-            <button onClick={startWatchPosition}>Start Watch Position</button>
-          )}
-          <div>
-            <h3>Position</h3>
-            <div>
-              latitude: {position.latitude}
-              <br />
-              longitude: {position.longitude}
-            </div>
-          </div>
-          <div>
-            <h3>Watch Mode</h3>
-            <p>Watch Status: {isWatching ? 'Watching' : 'Not Watching'}</p>
-            <p>Watch ID: {watchId}</p>
-          </div>
-        </div>
-      )}
+    <div>
+      <button onClick={test}>test</button>
+      <button onClick={clear}>clear</button>
+
+      <pre id="position_view">{geoText}</pre>
     </div>
   );
 };
 
-export default App
+export default App;
