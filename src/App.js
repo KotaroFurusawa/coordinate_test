@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
 const App = () => {
-  const [num, setNum] = useState(0);
   const [watchId, setWatchId] = useState(null);
   const [geoText, setGeoText] = useState('');
+  const [isWatching, setIsWatching] = useState(true);
 
   const test = () => {
     const options = {
@@ -15,18 +15,16 @@ const App = () => {
     const successCallback = (position) => {
       const date = new Date(position.timestamp);
 
-      const newGeoText = `緯度:${position.coords.latitude}\n
-                          経度:${position.coords.longitude}\n
-                          高度:${position.coords.altitude}\n
-                          位置精度:${position.coords.accuracy}\n
-                          高度精度:${position.coords.altitudeAccuracy}\n
-                          移動方向:${position.coords.heading}\n
-                          速度:${position.coords.speed}\n
-                          取得時刻:${date.toLocaleString()}\n
-                          取得回数:${num + 1}\n`;
+      const newGeoText = `緯度:${position.coords.latitude}<br/>
+                          経度:${position.coords.longitude}<br/>
+                          高度:${position.coords.altitude}<br/>
+                          位置精度:${position.coords.accuracy}<br/>
+                          高度精度:${position.coords.altitudeAccuracy}<br/>
+                          移動方向:${position.coords.heading}<br/>
+                          速度:${position.coords.speed}<br/>
+                          取得時刻:${date.toLocaleString()}`;
 
       setGeoText(newGeoText);
-      setNum((prevNum) => prevNum + 1);
     };
 
     const errorCallback = (error) => {
@@ -40,7 +38,6 @@ const App = () => {
   const clear = () => {
     navigator.geolocation.clearWatch(watchId);
     setGeoText('');
-    setNum(0);
   };
 
   useEffect(() => {
@@ -55,8 +52,7 @@ const App = () => {
     <div>
       <button onClick={test}>test</button>
       <button onClick={clear}>clear</button>
-
-      <pre id="position_view">{geoText}</pre>
+      <p dangerouslySetInnerHTML={{__html: geoText}} />
     </div>
   );
 };
