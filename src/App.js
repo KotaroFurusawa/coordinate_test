@@ -36,6 +36,17 @@ const targetLocations = {
   'tes1': { alert: L3, latitude: 35.861358, longitude: 139.514255},
   'tes2': { alert: R1, latitude: 35.857980, longitude: 139.516098},
   'tes3': { alert: R2, latitude: 35.859108, longitude: 139.519107},
+  '101': {alert: L2, latitude:	35.60301354, longitude: 	139.5035557},
+  '102': {alert: R3, latitude: 35.60168764, longitude:	139.5040731},
+  '103': {alert: R1, latitude: 35.62497077, longitude: 139.514726},
+  '104': {alert: R2, latitude: 35.62555442, longitude: 139.5145345},
+  '105': {alert: R3, latitude: 35.62617419, longitude: 139.5133445},
+  '106': {alert: L2, latitude: 35.62687008, longitude: 139.51346},
+  '107': {alert: L1, latitude: 35.62931304, longitude: 139.5129325},
+  '108': {alert: L3, latitude: 35.6303786, longitude: 139.5113118},
+  '109': {alert: L1, latitude: 35.6284409, longitude: 139.5113816},
+  '110': {alert: L1, latitude: 35.62915916, longitude: 139.5151191},
+  '111': {alert: R1, latitude: 35.63134247, longitude: 139.5147054}
 };
 
 // Haversine formulaを使用して2つの座標の距離を計算
@@ -147,7 +158,12 @@ const App = () => {
           <button onClick={clear}>クリア</button>
           <button onClick={() => play()}>警告音テスト</button>
         </div>
-        {!isStart ? <p css={css({color: 'white', lineHeight: 1.8})}>「開始」ボタンを押すと、デモが開始されます。<br/>「警告音テスト」を押して、デモ開始前に音が鳴ることをご確認ください。</p> : <p css={css({color: 'white', lineHeight: 1.8})}>デモを実行中です。「クリア」ボタンでリセットできます。</p>}
+        {!isStart ? <p css={css({color: 'white', lineHeight: 1.8})}>「開始」ボタンを押すと、デモが開始されます。<br/>
+        開始前に、以下の点についてご確認ください。<br/>
+        1. 「警告音テスト」を押して、デモ開始前に音が鳴ることをご確認ください。(音量が0、またはマナーモードになっていると音が鳴りません)<br/>
+        2. ご使用中のブラウザに、位置情報の利用を許可してください<br/>
+        3. ご使用中の端末の画面自動ロックをオフにしてください。
+        </p> : <p css={css({color: 'white', lineHeight: 1.8})}>デモを実行中です。「クリア」ボタンでリセットできます。</p>}
         {/* <p color="red">{alertKey}</p> */}
         {/* <p dangerouslySetInnerHTML={{__html: geoText}} /> */}
       </div>
