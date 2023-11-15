@@ -33,7 +33,9 @@ const targetLocations = {
   '18': { alert: R3,latitude: 35.0207312699999, longitude: 139.047806189999 },
   '19': { alert: R1,latitude: 35.02167146, longitude: 139.04573686 },
   '20': { alert: L2,latitude: 35.0227580999999, longitude: 139.045319299999 },
-  'test': { alert: L3, latitude: 35.86319878235085, longitude: 139.52311961924613 },
+  'tes1': { alert: L3, latitude: 35.861358, longitude: 139.514255},
+  'tes2': { alert: R1, latitude: 35.857980, longitude: 139.516098},
+  'tes3': { alert: R2, latitude: 35.859108, longitude: 139.519107},
 };
 
 // Haversine formulaを使用して2つの座標の距離を計算
