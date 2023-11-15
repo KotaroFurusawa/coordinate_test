@@ -163,6 +163,7 @@ const App = () => {
           <div css={css({display: 'flex', gap: 8, justifyContent: 'center'})}>
             {isStart ? <button onClick={clear}>クリア</button> : <button onClick={test}>開始</button>}
             <button onClick={() => play()}>警告音テスト</button>
+            {/* <button onClick={() => setAlertKey('tes1')}>表示テスト</button> */}
           </div>
           {!isStart && <p css={css({color: 'white', lineHeight: 1.8, marginTop: 12})}>「開始」ボタンを押すと、デモが開始されます。<br/>
           開始前に、以下の点についてご確認ください。<br/>

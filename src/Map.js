@@ -31,6 +31,16 @@ const MapWithCurrentLocation = ({ position, height }) => {
     }
   }, [position]);
 
+  useEffect(()=>{
+    if (markerRef.current && position) {
+      setTimeout(() => {
+        mapRef.current.invalidateSize(); // 地図のサイズを再計算して更新
+        markerRef.current.setLatLng(mapRef.current.getCenter()); // ピンを地図の中央に再配置
+      }, 200);
+    }
+    // eslint-disable-next-line
+  },[height])
+
   return <div id="map" style={{ height }}></div>;
 };
 
