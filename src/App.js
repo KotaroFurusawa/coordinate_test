@@ -9,6 +9,12 @@ import L2 from './assets/images/alert/L2.png'
 import R3 from './assets/images/alert/R3.png'
 import L3 from './assets/images/alert/L3.png'
 import Sound from './assets/sounds/alert/alert.mp3'
+import 'leaflet/dist/leaflet.css';
+import MapWithCurrentLocation from './Map';
+import Leaflet from 'leaflet'
+
+Leaflet.Icon.Default.imagePath =
+  '//cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/'
 
 const RADIUS = 0.025 // 半径25m以内
 
@@ -72,6 +78,7 @@ const App = () => {
   // const [geoText, setGeoText] = useState('');
   const [isStart, setIsStart] = useState(false);
   const [alertKey, setAlertKey] = useState('');
+  const [currentPosition, setCurrentPosition] = useState([0,0])
 
   const [play] = useSound(Sound);
 
@@ -97,6 +104,8 @@ const App = () => {
       // 各ターゲット座標との距離を計算
       // 50m以内の全てのkeyを返却
       // スポット間が最短でも70m離れているので25mのセルが干渉することはない。よって、一つしか取れない想定
+      setCurrentPosition([position.coords.latitude, position.coords.longitude])
+
       const withinRadiusTargets = Object.keys(targetLocations).filter((key) => {
         const target = targetLocations[key];
         const distance = calculateDistance(
@@ -150,20 +159,25 @@ const App = () => {
   return (
     <div css={displayCenterStyle}>
       <div css={containerStyle}>
-        <div css={css({display: 'flex', justifyContent: 'center'})}>
-          {alertKey && <img src={targetLocations[alertKey].alert} alt="警告" css={imgStyle}/>}
+        <div css={css({margin: 16})}>
+          <div css={css({display: 'flex', gap: 8, justifyContent: 'center'})}>
+            {isStart ? <button onClick={clear}>クリア</button> : <button onClick={test}>開始</button>}
+            <button onClick={() => play()}>警告音テスト</button>
+          </div>
+          {!isStart && <p css={css({color: 'white', lineHeight: 1.8, marginTop: 12})}>「開始」ボタンを押すと、デモが開始されます。<br/>
+          開始前に、以下の点についてご確認ください。<br/>
+          1. 「警告音テスト」を押して、デモ開始前に音が鳴ることをご確認ください。(音量が0、またはマナーモードになっていると音が鳴りません)<br/>
+          2. ご使用中のブラウザに、位置情報の利用を許可してください<br/>
+          3. ご使用中の端末の画面自動ロックをオフにしてください。
+          </p>}
+          <div css={css({display: 'flex', justifyContent: 'center', marginTop: 16})}>
+            {alertKey && <img src={targetLocations[alertKey].alert} alt="警告" css={imgStyle}/>}
+            {/* <img src={R2} alt="警告" css={imgStyle}/> */}
+          </div>
         </div>
-        <div css={css({display: 'flex', gap: 8})}>
-          <button onClick={test}>開始</button>
-          <button onClick={clear}>クリア</button>
-          <button onClick={() => play()}>警告音テスト</button>
-        </div>
-        {!isStart ? <p css={css({color: 'white', lineHeight: 1.8})}>「開始」ボタンを押すと、デモが開始されます。<br/>
-        開始前に、以下の点についてご確認ください。<br/>
-        1. 「警告音テスト」を押して、デモ開始前に音が鳴ることをご確認ください。(音量が0、またはマナーモードになっていると音が鳴りません)<br/>
-        2. ご使用中のブラウザに、位置情報の利用を許可してください<br/>
-        3. ご使用中の端末の画面自動ロックをオフにしてください。
-        </p> : <p css={css({color: 'white', lineHeight: 1.8})}>デモを実行中です。「クリア」ボタンでリセットできます。</p>}
+        {
+          isStart && <MapWithCurrentLocation position={currentPosition} height={alertKey ? 'calc(100vh - 275px)' : 'calc(100vh - 75px)'}/>
+        }
         {/* <p color="red">{alertKey}</p> */}
         {/* <p dangerouslySetInnerHTML={{__html: geoText}} /> */}
       </div>
@@ -175,17 +189,16 @@ const displayCenterStyle = css({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  padding: '32px 16px'
 })
 
 const containerStyle = css({
   width: '100%',
-  maxWidth: 500
+  maxWidth: 500,
 })
 
 const imgStyle = css({
-  width: '85%',
-  margin: '32px 0px'
+  width: '200px',
 })
+
 
 export default App;
