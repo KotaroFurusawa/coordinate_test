@@ -133,9 +133,8 @@ const App = () => {
   return (
     <div css={displayCenterStyle}>
       <div css={containerStyle}>
-        {alertKey && <img src={targetLocations[alertKey].alert} alt="警告"/>}
         <div css={css({display: 'flex', justifyContent: 'center'})}>
-          <img src={R1} alt="警告" css={imgStyle}/>
+          {alertKey && <img src={targetLocations[alertKey].alert} alt="警告" css={imgStyle}/>}
         </div>
         <div css={css({display: 'flex', gap: 8})}>
           <button onClick={test}>開始</button>
