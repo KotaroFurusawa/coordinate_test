@@ -7,7 +7,7 @@ const MapWithCurrentLocation = ({ position, height }) => {
 
   useEffect(() => {
     if (!mapRef.current) {
-      const map = L.map('map').setView(position, 20);
+      const map = L.map('map', { dragging: false }).setView(position, 20);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; OpenStreetMap contributors',
