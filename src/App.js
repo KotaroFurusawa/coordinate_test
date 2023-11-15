@@ -60,8 +60,6 @@ const App = () => {
   const [isStart, setIsStart] = useState(false);
   const [alertKey, setAlertKey] = useState('');
 
-  const [con, setCon] = useState('')
-
   const [play] = useSound(Sound);
 
   const test = () => {
@@ -98,11 +96,13 @@ const App = () => {
       });
       
       if(withinRadiusTargets.length > 0){
-        if(alertKey !== withinRadiusTargets[0]){
-          setAlertKey(withinRadiusTargets[0])
-          setCon(`al:${alertKey}, target:${withinRadiusTargets[0]} date:${new Date()}s`)
-          play()
-        }
+        setAlertKey(prevAlertKey => {
+          if (prevAlertKey !== withinRadiusTargets[0]) {
+            play();
+            return withinRadiusTargets[0];
+          }
+          return prevAlertKey;
+        });
       }else{
         setAlertKey('')
       }
@@ -148,7 +148,6 @@ const App = () => {
         {!isStart ? <p css={css({color: 'white', lineHeight: 1.8})}>「開始」ボタンを押すと、デモが開始されます。<br/>「警告音テスト」を押して、デモ開始前に音が鳴ることをご確認ください。</p> : <p css={css({color: 'white', lineHeight: 1.8})}>デモを実行中です。「クリア」ボタンでリセットできます。</p>}
         {/* <p color="red">{alertKey}</p> */}
         {/* <p dangerouslySetInnerHTML={{__html: geoText}} /> */}
-        <p css={css({color: 'white', lineHeight: 1.8})}>{con}</p>
       </div>
     </div>
   );
