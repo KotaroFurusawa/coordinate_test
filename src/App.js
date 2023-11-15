@@ -96,7 +96,7 @@ const App = () => {
       });
       
       if(withinRadiusTargets.length > 0){
-        if(alertKey!==withinRadiusTargets[0]){
+        if(alertKey !== withinRadiusTargets[0]){
           setAlertKey(withinRadiusTargets[0])
           play()
         }
@@ -118,6 +118,7 @@ const App = () => {
 
   const clear = () => {
     navigator.geolocation.clearWatch(watchId);
+    setAlertKey('')
     setIsStart(false)
     // setGeoText('');
   };
