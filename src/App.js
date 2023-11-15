@@ -39,9 +39,9 @@ const targetLocations = {
   '18': { alert: R3,latitude: 35.0207312699999, longitude: 139.047806189999 },
   '19': { alert: R1,latitude: 35.02167146, longitude: 139.04573686 },
   '20': { alert: L2,latitude: 35.0227580999999, longitude: 139.045319299999 },
-  'tes1': { alert: L3, latitude: 35.861358, longitude: 139.514255 },
-  'tes2': { alert: R1, latitude: 35.857980, longitude: 139.516098 },
-  'tes3': { alert: R2, latitude: 35.859108, longitude: 139.519107 },
+  'test1': { alert: L2, latitude: 35.861358, longitude: 139.514255 },
+  'test2': { alert: L2, latitude: 35.857980, longitude: 139.516098 },
+  'test3': { alert: L2, latitude: 35.859108, longitude: 139.519107 },
   '101': { alert: L2, latitude: 35.60301354, longitude: 139.5035557 },
   '102': { alert: R3, latitude: 35.60168764, longitude: 139.5040731 },
   '103': { alert: R1, latitude: 35.62497077, longitude: 139.514726 },
@@ -163,7 +163,8 @@ const App = () => {
           <div css={css({display: 'flex', gap: 8, justifyContent: 'center'})}>
             {isStart ? <button onClick={clear}>クリア</button> : <button onClick={test}>開始</button>}
             <button onClick={() => play()}>警告音テスト</button>
-            {/* <button onClick={() => setAlertKey('tes1')}>表示テスト</button> */}
+            {/* <button onClick={() => setAlertKey('test1')}>表示テスト</button>
+            <button onClick={() => setAlertKey('')}>非表示テスト</button> */}
           </div>
           {!isStart && <p css={css({color: 'white', lineHeight: 1.8, marginTop: 12})}>「開始」ボタンを押すと、デモが開始されます。<br/>
           開始前に、以下の点についてご確認ください。<br/>
