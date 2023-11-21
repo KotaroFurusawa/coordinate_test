@@ -15,12 +15,12 @@ const MapWithCurrentLocation = ({ position, height }) => {
 
       mapRef.current = map;
 
-      const customIcon = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-        iconSize: [25, 41],
-      });
-
-      markerRef.current = L.marker(position, { icon: customIcon }).addTo(map);
+      markerRef.current = L.circle(position, {
+        color: '#84a2d4',
+        fillColor: '#5383c3',
+        fillOpacity: 1,
+        radius: 4,
+      }).addTo(map);
     }
   }, [position]);
 

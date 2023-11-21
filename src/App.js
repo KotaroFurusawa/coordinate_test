@@ -159,7 +159,7 @@ const App = () => {
   return (
     <div css={displayCenterStyle}>
       <div css={containerStyle}>
-        <div css={css({margin: 16})}>
+        <div css={css({margin: 16, height: 'calc(50vh - 32px)'})}>
           <div css={css({display: 'flex', gap: 8, justifyContent: 'center'})}>
             {isStart ? <button onClick={clear}>クリア</button> : <button onClick={test}>開始</button>}
             <button onClick={() => play()}>警告音テスト</button>
@@ -178,7 +178,7 @@ const App = () => {
           </div>
         </div>
         {
-          isStart && <MapWithCurrentLocation position={currentPosition} height={alertKey ? 'calc(100vh - 275px)' : 'calc(100vh - 75px)'}/>
+          isStart && <MapWithCurrentLocation position={currentPosition} height="50vh"/>
         }
         {/* <p color="red">{alertKey}</p> */}
         {/* <p dangerouslySetInnerHTML={{__html: geoText}} /> */}
