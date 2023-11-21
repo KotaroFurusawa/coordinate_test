@@ -159,7 +159,7 @@ const App = () => {
   return (
     <div css={displayCenterStyle}>
       <div css={containerStyle}>
-        <div css={css({margin: 16, height: 'calc(50vh - 32px)'})}>
+        <div css={css({margin: 16, height: 246})}>
           <div css={css({display: 'flex', gap: 8, justifyContent: 'center'})}>
             {isStart ? <button onClick={clear}>クリア</button> : <button onClick={test}>開始</button>}
             <button onClick={() => play()}>警告音テスト</button>
@@ -199,7 +199,7 @@ const containerStyle = css({
 })
 
 const imgStyle = css({
-  width: '200px',
+  width: '180px',
 })
 
 
