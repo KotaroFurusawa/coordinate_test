@@ -8,7 +8,12 @@ import R2 from './assets/images/alert/R2.png'
 import L2 from './assets/images/alert/L2.png'
 import R3 from './assets/images/alert/R3.png'
 import L3 from './assets/images/alert/L3.png'
-import Sound from './assets/sounds/alert/alert.mp3'
+import soundR1 from './assets/sounds/alert/R1.mp3'
+import soundL1 from './assets/sounds/alert/L1.mp3'
+import soundR2 from './assets/sounds/alert/R2.mp3'
+import soundL2 from './assets/sounds/alert/L2.mp3'
+import soundR3 from './assets/sounds/alert/R3.mp3'
+import soundL3 from './assets/sounds/alert/L3.mp3'
 import 'leaflet/dist/leaflet.css';
 import MapWithCurrentLocation from './Map';
 import Leaflet from 'leaflet'
@@ -85,7 +90,31 @@ const App = () => {
 
   const changeDirection = (event) => setDirection(event.target.value);
 
-  const [play] = useSound(Sound);
+  const [playR1] = useSound(soundR1);
+  const [playL1] = useSound(soundL1);
+  const [playR2] = useSound(soundR2);
+  const [playL2] = useSound(soundL2);
+  const [playR3] = useSound(soundR3);
+  const [playL3] = useSound(soundL3);
+
+  const alertTextToSound = (alertText) => {
+    switch (alertText) {
+      case 'R1':
+        return playR1()
+      case 'R2':
+        return playR2()
+      case 'R3':
+        return playR3()
+      case 'L1':
+        return playL1()
+      case 'L2':
+        return playL2()
+      case 'L3':
+        return playL3()
+      default:
+        return null
+    }
+  }
 
   const test = () => {
     const options = {
@@ -131,7 +160,7 @@ const App = () => {
       if(withinRadiusTargets.length > 0){
         setAlertKey(prevAlertKey => {
           if (prevAlertKey !== withinRadiusTargets[0]) {
-            play();
+            alertTextToSound(direction === 'up' ? targetLocations[withinRadiusTargets[0]].alertUp : targetLocations[withinRadiusTargets[0]].alertDown);
             return withinRadiusTargets[0];
           }
           return prevAlertKey;
@@ -181,7 +210,8 @@ const App = () => {
   useEffect(() => {
     const fetchTargetLocations = async () => {
       const {data} = await axios.get('https://sheets.googleapis.com/v4/spreadsheets/17YrxmwO1tdZ_3FvBYbvxm7If6pkSvNFsL2YXME7Zg6o/values/sheet1!B4:E300?key=AIzaSyDnrOf_0rTGU98l5aq45r74Z4nu7XsfIno')
-      const locations = await data.values?.map((value)=>({latitude: Number(value[0]), longitude: Number(value[1]), alertUp: alertTextToImage(value[2]), alertDown: alertTextToImage(value[3])}))
+      const locations = await data.values?.map((value)=>({latitude: Number(value[0]), longitude: Number(value[1]), alertUp: value[2], alertDown: value[3]}))
+      console.log(Object.assign({}, locations))
       setTargetLocations(Object.assign({}, locations))
     }
 
@@ -200,7 +230,7 @@ const App = () => {
         <div css={css({margin: 16, height: 246})}>
           <div css={css({display: 'flex', gap: 8, justifyContent: 'center'})}>
             {isStart ? <button onClick={clear}>クリア</button> : <button onClick={test}>開始</button>}
-            <button onClick={() => play()}>警告音テスト</button>
+            <button onClick={() => alertTextToSound('L1')}>警告音テスト</button>
             {/* <button onClick={() => setAlertKey('test1')}>表示テスト</button>
             <button onClick={() => setAlertKey('')}>非表示テスト</button> */}
           </div>
@@ -225,7 +255,7 @@ const App = () => {
           3. ご使用中の端末の画面自動ロックをオフにしてください。
           </p>}
           <div css={css({display: 'flex', justifyContent: 'center', marginTop: 16})}>
-            {alertKey && <img src={direction === 'up' ? targetLocations[alertKey].alertUp : targetLocations[alertKey].alertDown} alt="警告" css={imgStyle}/>}
+            {alertKey && <img src={alertTextToImage(direction === 'up' ? targetLocations[alertKey].alertUp : targetLocations[alertKey].alertDown)} alt="警告" css={imgStyle}/>}
             {/* <img src={R2} alt="警告" css={imgStyle}/> */}
           </div>
         </div>
