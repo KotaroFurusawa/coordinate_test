@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/coordinate_test/static/css/main.f4f9001c.css",
-    "main.js": "/coordinate_test/static/js/main.96825ffc.js",
+    "main.js": "/coordinate_test/static/js/main.ef59a6b7.js",
     "static/js/845.15b1b3ea.chunk.js": "/coordinate_test/static/js/845.15b1b3ea.chunk.js",
     "static/js/787.d4f4f66c.chunk.js": "/coordinate_test/static/js/787.d4f4f66c.chunk.js",
     "static/media/L2.mp3": "/coordinate_test/static/media/L2.c04995795905fc534726.mp3",
@@ -12,12 +12,12 @@
     "static/media/R1.mp3": "/coordinate_test/static/media/R1.0a39e585251d65915a1f.mp3",
     "index.html": "/coordinate_test/index.html",
     "main.f4f9001c.css.map": "/coordinate_test/static/css/main.f4f9001c.css.map",
-    "main.96825ffc.js.map": "/coordinate_test/static/js/main.96825ffc.js.map",
+    "main.ef59a6b7.js.map": "/coordinate_test/static/js/main.ef59a6b7.js.map",
     "845.15b1b3ea.chunk.js.map": "/coordinate_test/static/js/845.15b1b3ea.chunk.js.map",
     "787.d4f4f66c.chunk.js.map": "/coordinate_test/static/js/787.d4f4f66c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f4f9001c.css",
-    "static/js/main.96825ffc.js"
+    "static/js/main.ef59a6b7.js"
   ]
 }

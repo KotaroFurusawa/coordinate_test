@@ -86,6 +86,7 @@ const App = () => {
   const [alertKey, setAlertKey] = useState('');
   const [currentPosition, setCurrentPosition] = useState([0,0])
   const [targetLocations, setTargetLocations] = useState({})
+  const [radius, setRadius]  = useState(RADIUS)
   const [direction, setDirection] = useState("up");
 
   const changeDirection = (event) => setDirection(event.target.value);
@@ -154,7 +155,7 @@ const App = () => {
           target.latitude,
           target.longitude
         );
-        return distance <= RADIUS;
+        return distance <= radius;
       });
       
       if(withinRadiusTargets.length > 0){
@@ -211,11 +212,17 @@ const App = () => {
     const fetchTargetLocations = async () => {
       const {data} = await axios.get('https://sheets.googleapis.com/v4/spreadsheets/17YrxmwO1tdZ_3FvBYbvxm7If6pkSvNFsL2YXME7Zg6o/values/sheet1!B4:E300?key=AIzaSyDnrOf_0rTGU98l5aq45r74Z4nu7XsfIno')
       const locations = await data.values?.map((value)=>({latitude: Number(value[0]), longitude: Number(value[1]), alertUp: value[2], alertDown: value[3]}))
-      console.log(Object.assign({}, locations))
       setTargetLocations(Object.assign({}, locations))
     }
 
+    const fetchAlertRadius = async () => {
+      const {data} = await axios.get('https://sheets.googleapis.com/v4/spreadsheets/17YrxmwO1tdZ_3FvBYbvxm7If6pkSvNFsL2YXME7Zg6o/values/sheet1!G3?key=AIzaSyDnrOf_0rTGU98l5aq45r74Z4nu7XsfIno')
+      const radius = Number(data.values[0][0]) / 1000
+      setRadius(radius)
+    }
+
     fetchTargetLocations()
+    fetchAlertRadius()
 
     return () => {
       if (watchId) {
